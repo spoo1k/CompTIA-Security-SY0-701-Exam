@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado Completo Security+ SY0-701</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #0066cc;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+        .exam-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .question-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        .question {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            page-break-inside: avoid;
+        }
+        .question-number {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #0066cc;
+        }
+        .options {
+            margin-left: 20px;
+        }
+        .options label {
+            display: block;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+        .options input {
+            margin-right: 10px;
+        }
+        button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 15px;
+        }
+        button:hover {
+            background-color: #0055aa;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 5px solid #28a745;
+        }
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 5px solid #dc3545;
+        }
+        .score-panel {
+            position: sticky;
+            top: 0;
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .progress-container {
+            width: 60%;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            height: 20px;
+        }
+        .progress-bar {
+            height: 100%;
+            border-radius: 5px;
+            background-color: #0066cc;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .domain-tag {
+            display: inline-block;
+            background-color: #e9ecef;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+        .domain-1 { background-color: #d4edda; color: #155724; }
+        .domain-2 { background-color: #cce5ff; color: #004085; }
+        .domain-3 { background-color: #fff3cd; color: #856404; }
+        .domain-4 { background-color: #f8d7da; color: #721c24; }
+        .domain-5 { background-color: #e2e3e5; color: #383d41; }
+        @media print {
+            button, .score-panel, .controls { display: none; }
+            .result { display: block !important; }
+        }
+        .performance-based {
+            background-color: #e7f5ff;
+            border-left: 5px solid #4dabf7;
+        }
+        .pb-question {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .pb-image {
+            max-width: 100%;
+            height: auto;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+        }
+        .section-title {
+            background-color: #0066cc;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 30px 0 15px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simulado Completo CompTIA Security+ SY0-701</h1>
+    <div class="subtitle">90 questões - Simulando o exame real</div>
+    
+    <div class="score-panel">
+        <div>
+            <strong>Progresso:</strong> <span id="answered">0</span>/90 questões respondidas<br>
+            <strong>Pontuação:</strong> <span id="score">0</span> corretas
+        </div>
+        <div class="timer"><strong>Tempo restante:</strong> <span id="time">90:00</span></div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+    </div>
+
+    <div class="exam-info">
+        <div><strong>Domínios do exame:</strong><br>
+            1. General Security Concepts (12%)<br>
+            2. Threats, Vulnerabilities, and Mitigations (22%)<br>
+            3. Security Architecture (18%)<br>
+            4. Security Operations (28%)<br>
+            5. Security Program Management and Oversight (20%)
+        </div>
+        <div><strong>Informações:</strong><br>
+            • 90 questões (85 múltipla escolha + 5 performance-based)<br>
+            • 90 minutos<br>
+            • Pontuação de aprovação: 750/900<br>
+            • Simulado com questões em português
+        </div>
+    </div>
+
+    <div class="question-container" id="questions-container">
+        <!-- As questões serão inseridas aqui pelo JavaScript -->
+    </div>
+
+    <div class="controls">
+        <button onclick="checkAllAnswers()">Verificar Todas as Respostas</button>
+        <button onclick="resetSimulator()">Reiniciar Simulado</button>
+        <button onclick="window.print()">Imprimir Simulado</button>
+    </div>
+
+    <script>
+        // Dados do simulado completo com 90 questões
+        const questions = [
+            // Domínio 1: General Security Concepts (11 questões)
+            {
+                id: 1,
+                question: "Qual dos seguintes é o MELHOR método para prevenir ataques de phishing dirigidos a funcionários de uma organização?",
+                options: [
+                    "Implementar filtros de spam avançados",
+                    "Configurar autenticação multifator",
+                    "Realizar treinamentos regulares de conscientização",
+                    "Atualizar regularmente os sistemas antivírus"
+                ],
+                answer: "C",
+                domain: 1,
+                explanation: "Treinamentos regulares de conscientização são a melhor defesa contra phishing, pois capacitam os funcionários a reconhecer e relatar tentativas de phishing."
+            },
+            {
+                id: 2,
+                question: "Qual dos seguintes é um exemplo de controle de segurança físico?",
+                options: [
+                    "Firewall",
+                    "Leitor de cartões de acesso",
+                    "Antivírus",
+                    "Criptografia SSL"
+                ],
+                answer: "B",
+                domain: 1,
+                explanation: "Leitores de cartão de acesso são controles físicos que restringem o acesso a áreas físicas."
+            },
+            {
+                id: 3,
+                question: "Qual princípio de segurança garante que um usuário não possa negar ter realizado uma ação específica?",
+                options: [
+                    "Confidencialidade",
+                    "Integridade",
+                    "Disponibilidade",
+                    "Não repúdio"
+                ],
+                answer: "D",
+                domain: 1,
+                explanation: "O não repúdio fornece prova da origem e integridade dos dados, impedindo que os remetentes neguem ter enviado uma mensagem."
+            },
+            {
+                id: 4,
+                question: "Qual tipo de controle de segurança é um firewall de rede?",
+                options: [
+                    "Físico",
+                    "Técnico",
+                    "Administrativo",
+                    "Operacional"
+                ],
+                answer: "B",
+                domain: 1,
+                explanation: "Firewalls são controles técnicos (também chamados de controles lógicos) que implementam segurança através de tecnologia."
+            },
+            {
+                id: 5,
+                question: "Qual framework de segurança é amplamente utilizado para gerenciamento de riscos em organizações?",
+                options: [
+                    "ISO 27001",
+                    "PCI DSS",
+                    "GDPR",
+                    "HIPAA"
+                ],
+                answer: "A",
+                domain: 1,
+                explanation: "ISO 27001 é um padrão internacional para sistemas de gestão de segurança da informação (SGSI) que inclui abordagem para gerenciamento de riscos."
+            },
+            {
+                id: 6,
+                question: "Qual conceito de segurança se refere à prática de limitar acesso a usuários apenas ao que é necessário para suas funções?",
+                options: [
+                    "Defesa em profundidade",
+                    "Menor privilégio",
+                    "Separação de deveres",
+                    "Diversidade de defesas"
+                ],
+                answer: "B",
+                domain: 1,
+                explanation: "O princípio do menor privilégio determina que usuários devem ter apenas os acessos necessários para realizar suas tarefas."
+            },
+            {
+                id: 7,
+                question: "Qual dos seguintes NÃO é um componente típico de um modelo de confiança zero (Zero Trust)?",
+                options: [
+                    "Verificação explícita",
+                    "Princípio do menor privilégio",
+                    "Segmentação de rede micro",
+                    "Confiança implícita baseada em localização"
+                ],
+                answer: "D",
+                domain: 1,
+                explanation: "Zero Trust elimina a confiança implícita e verifica cada requisição como se viesse de uma rede aberta."
+            },
+            {
+                id: 8,
+                question: "Qual técnica é usada para mascarar dados sensíveis em bancos de dados não produtivos?",
+                options: [
+                    "Tokenização",
+                    "Ofuscação de dados",
+                    "Criptografia assimétrica",
+                    "Hashing com sal"
+                ],
+                answer: "B",
+                domain: 1,
+                explanation: "Ofuscação de dados mascara dados reais com valores fictícios mas realistas para uso em ambientes de teste."
+            },
+            {
+                id: 9,
+                question: "Qual documento descreve como uma organização responderá a incidentes de segurança?",
+                options: [
+                    "Política de Aceitação de Riscos",
+                    "Plano de Resposta a Incidentes",
+                    "Acordo de Nível de Serviço",
+                    "Política de Backup"
+                ],
+                answer: "B",
+                domain: 1,
+                explanation: "O Plano de Resposta a Incidentes (IRP) detalha os procedimentos para identificar, conter e recuperar de incidentes de segurança."
+            },
+            {
+                id: 10,
+                question: "Qual conceito se refere a ter múltiplas camadas de controles de segurança?",
+                options: [
+                    "Defesa em profundidade",
+                    "Segurança por obscuridade",
+                    "Hardening de sistemas",
+                    "Segmentação de rede"
+                ],
+                answer: "A",
+                domain: 1,
+                explanation: "Defesa em profundidade emprega múltiplas camadas de controles de segurança para proteger ativos."
+            },
+            {
+                id: 11,
+                question: "Qual tipo de política de segurança define regras para uso aceitável de recursos de TI?",
+                options: [
+                    "Política de Senhas",
+                    "AUP (Acceptable Use Policy)",
+                    "Política de Retenção de Dados",
+                    "Política de Criptografia"
+                ],
+                answer: "B",
+                domain: 1,
+                explanation: "A Política de Uso Aceitável (AUP) define o que os usuários podem e não podem fazer com os recursos organizacionais."
+            },
+
+            // Domínio 2: Threats, Vulnerabilities, and Mitigations (20 questões)
+            {
+                id: 12,
+                question: "Um analista de segurança está revisando logs e encontra múltiplas tentativas de login com diferentes combinações de nome de usuário e senha. Qual tipo de ataque está provavelmente ocorrendo?",
+                options: [
+                    "DDoS",
+                    "SQL injection",
+                    "Brute force",
+                    "Cross-site scripting"
+                ],
+                answer: "C",
+                domain: 2,
+                explanation: "Ataques de força bruta envolvem tentativas repetidas de adivinhar credenciais de login."
+            },
+            {
+                id: 13,
+                question: "Qual tipo de ataque envolve a interceptação de comunicação entre duas partes sem seu conhecimento?",
+                options: [
+                    "DDoS",
+                    "Man-in-the-middle",
+                    "Phishing",
+                    "SQL injection"
+                ],
+                answer: "B",
+                domain: 2,
+                explanation: "Ataques man-in-the-middle ocorrem quando um invasor intercepta secretamente e potencialmente altera a comunicação entre duas partes."
+            },
+            {
+                id: 14,
+                question: "Qual tipo de malware se propaga automaticamente através de redes explorando vulnerabilidades?",
+                options: [
+                    "Vírus",
+                    "Worm",
+                    "Trojan",
+                    "Ransomware"
+                ],
+                answer: "B",
+                domain: 2,
+                explanation: "Worms são malwares auto-replicantes que se espalham por redes sem necessidade de interação do usuário."
+            },
+            {
+                id: 15,
+                question: "Qual técnica de engenharia social envolve ligações telefônicas para obter informações confidenciais?",
+                options: [
+                    "Phishing",
+                    "Vishing",
+                    "Smishing",
+                    "Tailgating"
+                ],
+                answer: "B",
+                domain: 2,
+                explanation: "Vishing (voice phishing) usa chamadas telefônicas para enganar vítimas e obter informações sensíveis."
+            },
+            {
+                id: 16,
+                question: "Qual vulnerabilidade ocorre quando dados não validados são incluídos em consultas SQL?",
+                options: [
+                    "XSS",
+                    "CSRF",
+                    "SQL Injection",
+                    "Buffer Overflow"
+                ],
+                answer: "C",
+                domain: 2,
+                explanation: "Injeção SQL ocorre quando entradas não validadas são concatenadas em consultas SQL, permitindo execução de comandos maliciosos."
+            },
+            {
+                id: 17,
+                question: "Qual ataque explora a confiança que um site tem no navegador do usuário?",
+                options: [
+                    "DDoS",
+                    "CSRF",
+                    "Zero-day",
+                    "ARP poisoning"
+                ],
+                answer: "B",
+                domain: 2,
+                explanation: "Cross-Site Request Forgery (CSRF) engana o navegador para executar ações não intencionais em sites onde o usuário está autenticado."
+            },
+            {
+                id: 18,
+                question: "Qual técnica de evasão divide dados maliciosos em pequenos pacotes para evitar detecção?",
+                options: [
+                    "Fragmentation",
+                    "Obfuscation",
+                    "Encapsulation",
+                    "Spoofing"
+                ],
+                answer: "A",
+                domain: 2,
+                explanation: "Fragmentação divide o tráfego malicioso em pequenos pedaços para contornar sistemas de detecção baseados em assinaturas."
+            },
+            {
+                id: 19,
+                question: "Qual tipo de ataque tenta esgotar os recursos de um sistema?",
+                options: [
+                    "Phishing",
+                    "DoS",
+                    "Spoofing",
+                    "Eavesdropping"
+                ],
+                answer: "B",
+                domain: 2,
+                explanation: "Ataques de Negação de Serviço (DoS) visam tornar um sistema indisponível sobrecarregando seus recursos."
+            },
+            {
+                id: 20,
+                question: "Qual vulnerabilidade permite execução de código remotamente através de entrada mal formatada?",
+                options: [
+                    "XSS",
+                    "Buffer overflow",
+                    "Race condition",
+                    "Directory traversal"
+                ],
+                answer: "B",
+                domain: 2,
+                explanation: "Buffer overflow ocorre quando um programa escreve além dos limites de memória alocados, potencialmente permitindo execução de código arbitrário."
+            },
+            {
+                id: 21,
+                question: "Qual técnica usa engenharia social para obter credenciais através de mensagens SMS?",
+                options: [
+                    "Phishing",
+                    "Vishing",
+                    "Smishing",
+                    "Impersonation"
+                ],
+                answer: "C",
+                domain: 2,
+                explanation: "Smishing (SMS phishing) usa mensagens de texto para enganar vítimas a revelar informações ou baixar malware."
+            },
+            {
+                id: 22,
+                question: "Qual tipo de ataque explora uma vulnerabilidade desconhecida pelos desenvolvedores?",
+                options: [
+                    "Zero-day",
+                    "On-path",
+                    "DDoS",
+                    "DNS spoofing"
+                ],
+                answer: "A",
+                domain: 2,
+                explanation: "Ataques zero-day exploram vulnerabilidades não divulgadas e para as quais não há patches disponíveis."
+            },
+            {
+                id: 23,
+                question: "Qual técnica modifica o cabeçalho 'From' de um e-mail para parecer legítimo?",
+                options: [
+                    "Phishing",
+                    "Spoofing",
+                    "Impersonation",
+                    "Tailgating"
+                ],
+                answer: "B",
+                domain: 2,
+                explanation: "Spoofing de e-mail altera campos como 'From' para fazer mensagens parecerem vir de fontes confiáveis."
+            },
+            {
+                id: 24,
+                question: "Qual vulnerabilidade permite acesso não autorizado a arquivos através de manipulação de caminhos?",
+                options: [
+                    "XSS",
+                    "Directory traversal",
+                    "CSRF",
+                    "SQLi"
+                ],
+                answer: "B",
+                domain: 2,
+                explanation: "Directory traversal explora validação inadequada de entradas para acessar arquivos fora do diretório pretendido."
+            },
+            {
+                id: 25,
+                question: "Qual tipo de malware bloqueia acesso ao sistema até que um resgate seja pago?",
+                options: [
+                    "Spyware",
+                    "Adware",
+                    "Ransomware",
+                    "Rootkit"
+                ],
+                answer: "C",
+                domain: 2,
+                explanation: "Ransomware criptografa arquivos ou bloqueia sistemas, exigindo pagamento para restabelecer acesso."
+            },
+            {
+                id: 26,
+                question: "Qual técnica usa pontos de acesso Wi-Fi falsos para capturar dados?",
+                options: [
+                    "Evil twin",
+                    "DNS poisoning",
+                    "MAC spoofing",
+                    "Bluejacking"
+                ],
+                answer: "A",
+                domain: 2,
+                explanation: "Evil twin é um ponto de acesso Wi-Fi malicioso que parece legítimo para capturar credenciais e dados."
+            },
+            {
+                id: 27,
+                question: "Qual vulnerabilidade ocorre quando aplicações web não validam adequadamente entradas do usuário?",
+                options: [
+                    "XSS",
+                    "DoS",
+                    "ARP poisoning",
+                    "MAC flooding"
+                ],
+                answer: "A",
+                domain: 2,
+                explanation: "Cross-Site Scripting (XSS) injeta scripts maliciosos em aplicações web através de entradas não validadas."
+            },
+            {
+                id: 28,
+                question: "Qual técnica modifica endereços MAC em switches para interceptar tráfego?",
+                options: [
+                    "DNS spoofing",
+                    "MAC flooding",
+                    "ARP poisoning",
+                    "VLAN hopping"
+                ],
+                answer: "C",
+                domain: 2,
+                explanation: "ARP poisoning envia respostas ARP falsas para associar o endereço MAC do atacante ao IP de outra máquina."
+            },
+            {
+                id: 29,
+                question: "Qual tipo de ataque explora a ordem ou timing de operações?",
+                options: [
+                    "Race condition",
+                    "Buffer overflow",
+                    "Integer overflow",
+                    "Pointer dereference"
+                ],
+                answer: "A",
+                domain: 2,
+                explanation: "Race conditions ocorrem quando a saída depende da sequência ou timing de eventos não controlados."
+            },
+            {
+                id: 30,
+                question: "Qual técnica usa engenharia social para acessar áreas restritas seguindo pessoas autorizadas?",
+                options: [
+                    "Phishing",
+                    "Tailgating",
+                    "Impersonation",
+                    "Dumpster diving"
+                ],
+                answer: "B",
+                domain: 2,
+                explanation: "Tailgating envolve seguir alguém autorizado para acessar áreas restritas sem credenciais próprias."
+            },
+            {
+                id: 31,
+                question: "Qual vulnerabilidade permite execução de código através de documentos maliciosos?",
+                options: [
+                    "XSS",
+                    "CSRF",
+                    "XXE",
+                    "Directory traversal"
+                ],
+                answer: "C",
+                domain: 2,
+                explanation: "XML External Entity (XXE) explora processadores XML mal configurados para ler arquivos ou executar código."
+            },
+
+            // Domínio 3: Security Architecture (16 questões)
+            {
+                id: 32,
+                question: "Qual dos seguintes princípios do Zero Trust está mais diretamente relacionado ao conceito de 'verificar explicitamente'?",
+                options: [
+                    "Microssegmentação",
+                    "Autenticação contínua",
+                    "Princípio do menor privilégio",
+                    "Prevenção de movimento lateral"
+                ],
+                answer: "B",
+                domain: 3,
+                explanation: "O princípio Zero Trust de 'verificar explicitamente' está mais alinhado com a autenticação contínua, onde cada acesso é verificado independentemente de conexões anteriores."
+            },
+            {
+                id: 33,
+                question: "Qual protocolo criptografado deve ser usado em vez de Telnet para acesso remoto seguro?",
+                options: [
+                    "FTP",
+                    "SSH",
+                    "HTTP",
+                    "SNMP"
+                ],
+                answer: "B",
+                domain: 3,
+                explanation: "SSH (Secure Shell) é o protocolo seguro para acesso remoto que substitui o Telnet inseguro."
+            },
+            {
+                id: 34,
+                question: "Qual técnica de criptografia usa a mesma chave para criptografar e descriptografar dados?",
+                options: [
+                    "Criptografia assimétrica",
+                    "Criptografia de chave pública",
+                    "Criptografia simétrica",
+                    "Hashing"
+                ],
+                answer: "C",
+                domain: 3,
+                explanation: "Criptografia simétrica usa uma única chave para ambos os processos de criptografia e descriptografia."
+            },
+            {
+                id: 35,
+                question: "Qual algoritmo de criptografia assimétrica é mais comumente usado para troca de chaves?",
+                options: [
+                    "AES",
+                    "RSA",
+                    "3DES",
+                    "SHA-256"
+                ],
+                answer: "B",
+                domain: 3,
+                explanation: "RSA é um algoritmo de criptografia assimétrica frequentemente usado para troca de chaves e assinaturas digitais."
+            },
+            {
+                id: 36,
+                question: "Qual protocolo fornece autenticação e criptografia para tráfego IP?",
+                options: [
+                    "SSL",
+                    "TLS",
+                    "IPsec",
+                    "SSH"
+                ],
+                answer: "C",
+                domain: 3,
+                explanation: "IPsec opera na camada de rede, fornecendo autenticação e criptografia para pacotes IP."
+            },
+            {
+                id: 37,
+                question: "Qual tipo de firewall opera na camada 7 do modelo OSI?",
+                options: [
+                    "Packet-filtering",
+                    "Stateful",
+                    "Proxy",
+                    "NAT"
+                ],
+                answer: "C",
+                domain: 3,
+                explanation: "Firewalls proxy operam na camada de aplicação (7) e podem inspecionar conteúdo de pacotes."
+            },
+            {
+                id: 38,
+                question: "Qual tecnologia isola tráfego de rede em compartimentos lógicos?",
+                options: [
+                    "VLAN",
+                    "VPN",
+                    "NAT",
+                    "DMZ"
+                ],
+                answer: "A",
+                domain: 3,
+                explanation: "VLANs (Virtual LANs) segmentam redes fisicas em domínios de broadcast lógicos separados."
+            },
+            {
+                id: 39,
+                question: "Qual componente de segurança verifica o tráfego de rede em busca de padrões maliciosos?",
+                options: [
+                    "Firewall",
+                    "IDS",
+                    "VPN concentrator",
+                    "Load balancer"
+                ],
+                answer: "B",
+                domain: 3,
+                explanation: "Sistemas de Detecção de Intrusão (IDS) monitoram tráfego em busca de atividades maliciosas conhecidas."
+            },
+            {
+                id: 40,
+                question: "Qual padrão de criptografia sem fio é considerado mais seguro atualmente?",
+                options: [
+                    "WEP",
+                    "WPA",
+                    "WPA2",
+                    "WPA3"
+                ],
+                answer: "D",
+                domain: 3,
+                explanation: "WPA3 é o padrão mais recente e seguro para redes Wi-Fi, introduzindo melhorias significativas na segurança."
+            },
+            {
+                id: 41,
+                question: "Qual técnica oculta endereços IP internos quando acessam a Internet?",
+                options: [
+                    "VLAN",
+                    "NAT",
+                    "VPN",
+                    "DMZ"
+                ],
+                answer: "B",
+                domain: 3,
+                explanation: "Network Address Translation (NAT) traduz endereços IP privados para públicos ao acessar a Internet."
+            },
+            {
+                id: 42,
+                question: "Qual protocolo fornece autenticação centralizada para acesso à rede?",
+                options: [
+                    "RADIUS",
+                    "LDAP",
+                    "Kerberos",
+                    "TACACS+"
+                ],
+                answer: "A",
+                domain: 3,
+                explanation: "RADIUS é um protocolo de autenticação, autorização e accounting (AAA) comum para acesso à rede."
+            },
+            {
+                id: 43,
+                question: "Qual arquitetura de segurança coloca servidores acessíveis publicamente em uma rede separada?",
+                options: [
+                    "VLAN",
+                    "VPN",
+                    "DMZ",
+                    "NAT"
+                ],
+                answer: "C",
+                domain: 3,
+                explanation: "DMZ (Zona Desmilitarizada) é uma sub-rede que contém serviços acessíveis externamente, isolada da rede interna."
+            },
+            {
+                id: 44,
+                question: "Qual tecnologia permite comunicações seguras através de redes não confiáveis?",
+                options: [
+                    "VLAN",
+                    "VPN",
+                    "NAT",
+                    "IDS"
+                ],
+                answer: "B",
+                domain: 3,
+                explanation: "Redes Privadas Virtuais (VPNs) criam túneis criptografados através de redes públicas."
+            },
+            {
+                id: 45,
+                question: "Qual tipo de controle de acesso usa regras baseadas em papéis dos usuários?",
+                options: [
+                    "DAC",
+                    "MAC",
+                    "RBAC",
+                    "ABAC"
+                ],
+                answer: "C",
+                domain: 3,
+                explanation: "Controle de Acesso Baseado em Papéis (RBAC) atribui permissões com base em funções organizacionais."
+            },
+            {
+                id: 46,
+                question: "Qual algoritmo de hash é recomendado para armazenamento seguro de senhas?",
+                options: [
+                    "MD5",
+                    "SHA-1",
+                    "bcrypt",
+                    "DES"
+                ],
+                answer: "C",
+                domain: 3,
+                explanation: "bcrypt é um algoritmo de hash lento projetado especificamente para senhas, resistente a ataques de força bruta."
+            },
+            {
+                id: 47,
+                question: "Qual protocolo é usado para distribuição segura de chaves públicas em uma infraestrutura PKI?",
+                options: [
+                    "IPsec",
+                    "LDAP",
+                    "OCSP",
+                    "SCEP"
+                ],
+                answer: "D",
+                domain: 3,
+                explanation: "Simple Certificate Enrollment Protocol (SCEP) automatiza a distribuição de certificados em uma PKI."
+            },
+
+            // Domínio 4: Security Operations (25 questões)
+            {
+                id: 48,
+                question: "Qual ferramenta seria MAIS adequada para identificar vulnerabilidades conhecidas em sistemas de uma rede?",
+                options: [
+                    "Nmap",
+                    "Nessus",
+                    "Wireshark",
+                    "Metasploit"
+                ],
+                answer: "B",
+                domain: 4,
+                explanation: "Nessus é um scanner de vulnerabilidades que identifica falhas conhecidas em sistemas, enquanto Nmap é para descoberta de rede, Wireshark para análise de tráfego e Metasploit para exploração."
+            },
+            {
+                id: 49,
+                question: "Qual tipo de teste de segurança envolve tentar explorar vulnerabilidades como um atacante faria, mas com permissão?",
+                options: [
+                    "Varredura de vulnerabilidades",
+                    "Teste de penetração",
+                    "Auditoria de configuração",
+                    "Análise de código estático"
+                ],
+                answer: "B",
+                domain: 4,
+                explanation: "Testes de penetração simulam ataques reais para identificar vulnerabilidades exploráveis."
+            },
+            {
+                id: 50,
+                question: "Qual técnica é usada para ocultar dados dentro de outros arquivos como imagens?",
+                options: [
+                    "Criptografia",
+                    "Ofuscação",
+                    "Steganografia",
+                    "Tokenização"
+                ],
+                answer: "C",
+                domain: 4,
+                explanation: "Esteganografia esconde dados dentro de outros arquivos (como imagens ou áudio) sem alterar significativamente sua aparência."
+            },
+            {
+                id: 51,
+                question: "Qual comando no Linux lista permissões de arquivos e diretórios?",
+                options: [
+                    "chmod",
+                    "ls -l",
+                    "ps aux",
+                    "netstat"
+                ],
+                answer: "B",
+                domain: 4,
+                explanation: "'ls -l' lista arquivos com detalhes incluindo permissões, enquanto 'chmod' altera permissões."
+            },
+            {
+                id: 52,
+                question: "Qual ferramenta é usada para capturar e analisar tráfego de rede?",
+                options: [
+                    "Nmap",
+                    "Wireshark",
+                    "Metasploit",
+                    "Nessus"
+                ],
+                answer: "B",
+                domain: 4,
+                explanation: "Wireshark é um analisador de protocolos de rede que captura e exibe tráfego em tempo real."
+            },
+            {
+                id: 53,
+                question: "Qual técnica ajuda a identificar atividades maliciosas analisando padrões de tráfego?",
+                options: [
+                    "Varredura de portas",
+                    "Análise de logs",
+                    "Análise de comportamento de rede",
+                    "Teste de estresse"
+                ],
+                answer: "C",
+                domain: 4,
+                explanation: "Análise de comportamento de rede estabelece linhas de base e detecta anomalias que podem indicar comprometimento."
+            },
+            {
+                id: 54,
+                question: "Qual sistema coleta e correlaciona eventos de segurança de várias fontes?",
+                options: [
+                    "IDS",
+                    "IPS",
+                    "SIEM",
+                    "DLP"
+                ],
+                answer: "C",
+                domain: 4,
+                explanation: "SIEM (Security Information and Event Management) agrega e analisa dados de logs de várias fontes para detecção de ameaças."
+            },
+            {
+                id: 55,
+                question: "Qual técnica é usada para determinar se um arquivo foi alterado?",
+                options: [
+                    "Criptografia",
+                    "Hashing",
+                    "Tokenização",
+                    "Obfuscação"
+                ],
+                answer: "B",
+                domain: 4,
+                explanation: "Funções hash geram valores únicos para arquivos; qualquer alteração muda o hash, indicando modificação."
+            },
+            {
+                id: 56,
+                question: "Qual prática ajuda a proteger contra ataques a sistemas legados que não podem ser atualizados?",
+                options: [
+                    "Segmentação de rede",
+                    "Atualização frequente",
+                    "Substituição imediata",
+                    "Desativação de firewalls"
+                ],
+                answer: "A",
+                domain: 4,
+                explanation: "Isolar sistemas legados em segmentos de rede restritos limita sua exposição a ameaças."
+            },
+            {
+                id: 57,
+                question: "Qual tipo de backup copia apenas arquivos alterados desde o último backup completo?",
+                options: [
+                    "Completo",
+                    "Incremental",
+                    "Diferencial",
+                    "Espelhado"
+                ],
+                answer: "B",
+                domain: 4,
+                explanation: "Backups incrementais armazenam apenas dados alterados desde o último backup (seja completo ou incremental)."
+            },
+            {
+                id: 58,
+                question: "Qual comando no Windows exibe conexões de rede ativas?",
+                options: [
+                    "ipconfig",
+                    "netstat",
+                    "tracert",
+                    "nslookup"
+                ],
+                answer: "B",
+                domain: 4,
+                explanation: "'netstat' mostra estatísticas de rede e conexões ativas, enquanto 'ipconfig' mostra configurações de interface."
+            },
+            {
+                id: 59,
+                question: "Qual técnica ajuda a prevenir ataques de repetição (replay attacks)?",
+                options: [
+                    "Criptografia simétrica",
+                    "Timestamps",
+                    "Hashing simples",
+                    "Ofuscação de código"
+                ],
+                answer: "B",
+                domain: 4,
+                explanation: "Timestamps ou nonces (números usados uma vez) podem invalidar pacotes capturados para reprodução posterior."
+            },
+            {
+                id: 60,
+                question: "Qual ferramenta é usada para mapear hosts e serviços em uma rede?",
+                options: [
+                    "Wireshark",
+                    "Nmap",
+                    "Metasploit",
+                    "John the Ripper"
+                ],
+                answer: "B",
+                domain: 4,
+                explanation: "Nmap é um scanner de rede que descobre hosts e serviços, identificando sistemas abertos."
+            },
+            {
+                id: 61,
+                question: "Qual prática é essencial após conter um incidente de segurança?",
+                options: [
+                    "Restaurar a partir de backups",
+                    "Realizar análise de causa raiz",
+                    "Atualizar políticas de segurança",
+                    "Notificar autoridades reguladoras"
+                ],
+                answer: "B",
+                domain: 4,
+                explanation: "Análise de causa raiz identifica como o incidente ocorreu para prevenir recorrência."
+            },
+            {
+                id: 62,
+                question: "Qual técnica ajuda a detectar intrusões comparando arquivos com hashes conhecidos?",
+                options: [
+                    "Análise de assinatura",
+                    "Monitoramento de integridade de arquivos",
+                    "Análise heurística",
+                    "Sandboxing"
+                ],
+                answer: "B",
+                domain: 4,
+                explanation: "Monitoramento de integridade de arquivos verifica alterações não autorizadas comparando hashes atuais com valores conhecidos."
+            },
+            {
+                id: 63,
+                question: "Qual componente de um plano de continuidade de negócios especifica o tempo máximo aceitável de indisponibilidade?",
+                options: [
+                    "RTO",
+                    "RPO",
+                    "MTD",
+                    "SLA"
+                ],
+                answer: "A",
+                domain: 4,
+                explanation: "Recovery Time Objective (RTO) é o tempo máximo aceitável para restaurar operações após um desastre."
+            },
+            {
+                id: 64,
+                question: "Qual técnica usa um ambiente isolado para analisar comportamento de malware?",
+                options: [
+                    "Honeypot",
+                    "Sandbox",
+                    "VM escape",
+                    "Containerização"
+                ],
+                answer: "B",
+                domain: 4,
+                explanation: "Sandboxes fornecem ambientes isolados para executar e observar comportamento de código suspeito."
+            },
+            {
+                id: 65,
+                question: "Qual tipo de registro é MAIS importante para investigar incidentes de segurança?",
+                options: [
+                    "Logs de autenticação",
+                    "Logs de aplicação",
+                    "Logs de sistema",
+                    "Logs de alterações de configuração"
+                ],
+                answer: "A",
+                domain: 4,
+                explanation: "Logs de autenticação registram tentativas de login e são cruciais para identificar acessos não autorizados."
+            },
+            {
+                id: 66,
+                question: "Qual prática ajuda a proteger contra ataques de dia zero?",
+                options: [
+                    "Atualização regular de assinaturas de antivírus",
+                    "Configuração de controle de aplicativos",
+                    "Segmentação de rede",
+                    "Monitoramento de comportamento anômalo"
+                ],
+                answer: "D",
+                domain: 4,
+                explanation: "Como ataques zero-day não têm assinaturas conhecidas, monitorar comportamentos anômalos é mais eficaz."
+            },
+            {
+                id: 67,
+                question: "Qual técnica é usada para enganar atacantes e estudar seus métodos?",
+                options: [
+                    "Sandboxing",
+                    "Honeypot",
+                    "DLP",
+                    "IDS"
+                ],
+                answer: "B",
+                domain: 4,
+                explanation: "Honeypots são sistemas projetados para atrair e monitorar atividades de atacantes."
+            },
+            {
+                id: 68,
+                question: "Qual protocolo é usado para gerenciamento seguro de dispositivos de rede?",
+                options: [
+                    "Telnet",
+                    "SNMPv1",
+                    "SNMPv3",
+                    "HTTP"
+                ],
+                answer: "C",
+                domain: 4,
+                explanation: "SNMPv3 inclui autenticação e criptografia, ao contrário de versões anteriores inseguras."
+            },
+            {
+                id: 69,
+                question: "Qual prática ajuda a garantir que backups sejam recuperáveis?",
+                options: [
+                    "Armazenamento off-site",
+                    "Testes regulares de restauração",
+                    "Criptografia de backups",
+                    "Rotação de mídias"
+                ],
+                answer: "B",
+                domain: 4,
+                explanation: "Testar restaurações verifica a integridade dos backups e a capacidade de recuperação."
+            },
+            {
+                id: 70,
+                question: "Qual técnica ajuda a prevenir vazamento de dados sensíveis?",
+                options: [
+                    "DLP",
+                    "IDS",
+                    "IPS",
+                    "SIEM"
+                ],
+                answer: "A",
+                domain: 4,
+                explanation: "Data Loss Prevention (DLP) monitora e bloqueia tentativas de transmitir dados sensíveis indevidamente."
+            },
+            {
+                id: 71,
+                question: "Qual componente de um SIEM é responsável por normalizar dados de diferentes fontes?",
+                options: [
+                    "Correlacionador",
+                    "Coletor",
+                    "Normalizador",
+                    "Agregador"
+                ],
+                answer: "C",
+                domain: 4,
+                explanation: "O normalizador converte dados de diferentes formatos e fontes para um padrão comum para análise."
+            },
+            {
+                id: 72,
+                question: "Qual técnica é usada para identificar malware desconhecido baseado em comportamento?",
+                options: [
+                    "Análise de assinatura",
+                    "Análise heurística",
+                    "Comparação de hash",
+                    "Lista branca de aplicativos"
+                ],
+                answer: "B",
+                domain: 4,
+                explanation: "Análise heurística detecta malware desconhecido identificando comportamentos suspeitos característicos."
+            },
+
+            // Domínio 5: Security Program Management and Oversight (18 questões)
+            {
+                id: 73,
+                question: "Qual dos seguintes é um componente crítico de um plano de continuidade de negócios?",
+                options: [
+                    "Política de senhas complexas",
+                    "Análise de impacto nos negócios (BIA)",
+                    "Configuração de firewall",
+                    "Treinamento de conscientização sobre phishing"
+                ],
+                answer: "B",
+                domain: 5,
+                explanation: "A Análise de Impacto nos Negócios (BIA) é fundamental para identificar processos críticos e determinar requisitos de recuperação."
+            },
+            {
+                id: 74,
+                question: "Qual documento define os termos de responsabilidade entre uma organização e um provedor de serviços terceirizado?",
+                options: [
+                    "SLA",
+                    "MOU",
+                    "BPA",
+                    "ISA"
+                ],
+                answer: "A",
+                domain: 5,
+                explanation: "Um SLA (Service Level Agreement) define os termos de serviço entre uma organização e um provedor terceirizado."
+            },
+            {
+                id: 75,
+                question: "Qual lei de proteção de dados se aplica a organizações que processam dados de cidadãos da UE?",
+                options: [
+                    "HIPAA",
+                    "GDPR",
+                    "PCI DSS",
+                    "SOX"
+                ],
+                answer: "B",
+                domain: 5,
+                explanation: "O Regulamento Geral sobre a Proteção de Dados (GDPR) da UE aplica-se globalmente a qualquer organização que processe dados de residentes da UE."
+            },
+            {
+                id: 76,
+                question: "Qual padrão é específico para segurança de dados de cartões de pagamento?",
+                options: [
+                    "ISO 27001",
+                    "PCI DSS",
+                    "NIST CSF",
+                    "HIPAA"
+                ],
+                answer: "B",
+                domain: 5,
+                explanation: "O Padrão de Segurança de Dados da Indústria de Cartões de Pagamento (PCI DSS) aplica-se a organizações que processam pagamentos com cartão."
+            },
+            {
+                id: 77,
+                question: "Qual tipo de teste avalia a eficácia das políticas de segurança?",
+                options: [
+                    "Teste de penetração",
+                    "Auditoria de segurança",
+                    "Varredura de vulnerabilidades",
+                    "Análise de risco qualitativa"
+                ],
+                answer: "B",
+                domain: 5,
+                explanation: "Auditorias avaliam conformidade com políticas e padrões estabelecidos."
+            },
+            {
+                id: 78,
+                question: "Qual fator é MAIS importante ao classificar dados?",
+                options: [
+                    "Idade dos dados",
+                    "Sensibilidade dos dados",
+                    "Formato dos dados",
+                    "Tamanho dos dados"
+                ],
+                answer: "B",
+                domain: 5,
+                explanation: "A sensibilidade (impacto potencial se comprometidos) é o fator principal na classificação de dados."
+            },
+            {
+                id: 79,
+                question: "Qual prática ajuda a garantir que terceiros atendam aos requisitos de segurança?",
+                options: [
+                    "Revisão de SLA",
+                    "Avaliação de riscos de terceiros",
+                    "Monitoramento de rede",
+                    "Testes de penetração internos"
+                ],
+                answer: "B",
+                domain: 5,
+                explanation: "Avaliações de riscos de terceiros verificam os controles de segurança de fornecedores e parceiros."
+            },
+            {
+                id: 80,
+                question: "Qual documento descreve como uma organização manipulará informações confidenciais?",
+                options: [
+                    "Política de classificação de dados",
+                    "Política de retenção de dados",
+                    "Política de uso aceitável",
+                    "Política de resposta a incidentes"
+                ],
+                answer: "A",
+                domain: 5,
+                explanation: "Políticas de classificação de dados definem categorias de sensibilidade e tratamentos apropriados."
+            },
+            {
+                id: 81,
+                question: "Qual técnica é usada para priorizar riscos com base em probabilidade e impacto?",
+                options: [
+                    "Análise de lacunas",
+                    "Matriz de risco",
+                    "Análise de causa raiz",
+                    "Teste de penetração"
+                ],
+                answer: "B",
+                domain: 5,
+                explanation: "Matrizes de risco avaliam e priorizam riscos plotando probabilidade contra potencial impacto."
+            },
+            {
+                id: 82,
+                question: "Qual padrão do NIST fornece um framework para melhorar a segurança cibernética?",
+                options: [
+                    "NIST 800-53",
+                    "NIST CSF",
+                    "NIST 800-171",
+                    "NIST SP 1800"
+                ],
+                answer: "B",
+                domain: 5,
+                explanation: "O Cybersecurity Framework (CSF) do NIST fornece diretrizes voluntárias para gerenciamento de riscos cibernéticos."
+            },
+            {
+                id: 83,
+                question: "Qual conceito se refere ao processo de encerramento seguro de sistemas antigos?",
+                options: [
+                    "Hardening",
+                    "Decommissioning",
+                    "Patching",
+                    "Sanitization"
+                ],
+                answer: "B",
+                domain: 5,
+                explanation: "Decommissioning é o processo formal de desativação de sistemas, incluindo backup e eliminação segura de dados."
+            },
+            {
+                id: 84,
+                question: "Qual prática ajuda a prevenir conflitos de interesse em funções sensíveis?",
+                options: [
+                    "Separação de deveres",
+                    "Rodízio de funções",
+                    "Controle de acesso obrigatório",
+                    "Monitoramento contínuo"
+                ],
+                answer: "A",
+                domain: 5,
+                explanation: "Separação de deveres divide tarefas críticas entre múltiplas pessoas para prevenir fraudes."
+            },
+            {
+                id: 85,
+                question: "Qual lei dos EUA protege informações de saúde dos pacientes?",
+                options: [
+                    "GDPR",
+                    "HIPAA",
+                    "SOX",
+                    "FERPA"
+                ],
+                answer: "B",
+                domain: 5,
+                explanation: "A Lei de Portabilidade e Responsabilidade de Seguros de Saúde (HIPAA) estabelece padrões para proteção de dados de saúde."
+            },
+            {
+                id: 86,
+                question: "Qual documento define procedimentos para resposta a incidentes?",
+                options: [
+                    "IRP",
+                    "DRP",
+                    "BCP",
+                    "SOP"
+                ],
+                answer: "A",
+                domain: 5,
+                explanation: "O Plano de Resposta a Incidentes (IRP) detalha ações para detectar, responder e recuperar de incidentes de segurança."
+            },
+            {
+                id: 87,
+                question: "Qual prática ajuda a garantir que funcionários entendam políticas de segurança?",
+                options: [
+                    "Treinamento de conscientização",
+                    "Testes de penetração",
+                    "Auditorias anuais",
+                    "Monitoramento de rede"
+                ],
+                answer: "A",
+                domain: 5,
+                explanation: "Treinamentos regulares de conscientização em segurança educam funcionários sobre políticas e melhores práticas."
+            },
+            {
+                id: 88,
+                question: "Qual métrica mede o tempo médio para reparar um sistema falho?",
+                options: [
+                    "MTBF",
+                    "MTTR",
+                    "RTO",
+                    "RPO"
+                ],
+                answer: "B",
+                domain: 5,
+                explanation: "Mean Time to Repair (MTTR) mede o tempo médio para corrigir um sistema após falha."
+            },
+            {
+                id: 89,
+                question: "Qual técnica é usada para eliminar permanentemente dados de mídias de armazenamento?",
+                options: [
+                    "Deleção",
+                    "Formatação",
+                    "Degaussing",
+                    "Desfragmentação"
+                ],
+                answer: "C",
+                domain: 5,
+                explanation: "Degaussing usa campos magnéticos fortes para apagar dados permanentemente de mídias magnéticas."
+            },
+            {
+                id: 90,
+                question: "Qual processo verifica se controles de segurança estão funcionando como pretendido?",
+                options: [
+                    "Gerenciamento de riscos",
+                    "Avaliação de controle",
+                    "Teste de penetração",
+                    "Análise de impacto nos negócios"
+                ],
+                answer: "B",
+                domain: 5,
+                explanation: "Avaliações de controle verificam a eficácia operacional de medidas de segurança implementadas."
+            }
+        ];
+
+        // Variáveis do simulado
+        let score = 0;
+        let answeredQuestions = 0;
+        const totalQuestions = questions.length;
+        let userAnswers = new Array(totalQuestions).fill(null);
+
+        // Timer functionality
+        let minutes = 90;
+        let seconds = 0;
+        let timer = setInterval(updateTimer, 1000);
+
+        // Inicializa o simulado
+        function initSimulator() {
+            const container = document.getElementById('questions-container');
+            
+            // Agrupar por domínios
+            const domains = [
+                { id: 1, name: "General Security Concepts", count: 11 },
+                { id: 2, name: "Threats, Vulnerabilities, and Mitigations", count: 20 },
+                { id: 3, name: "Security Architecture", count: 16 },
+                { id: 4, name: "Security Operations", count: 25 },
+                { id: 5, name: "Security Program Management and Oversight", count: 18 }
+            ];
+            
+            let currentIndex = 0;
+            
+            domains.forEach(domain => {
+                // Adicionar título da seção
+                const sectionTitle = document.createElement('div');
+                sectionTitle.className = 'section-title';
+                sectionTitle.textContent = `Domínio ${domain.id}: ${domain.name} (${domain.count} questões)`;
+                container.appendChild(sectionTitle);
+                
+                // Adicionar questões deste domínio
+                for (let i = 0; i < domain.count; i++) {
+                    const q = questions[currentIndex];
+                    const domainClass = `domain-${q.domain}`;
+                    const domainNames = [
+                        "", // índice 0 vazio
+                        "General Security Concepts",
+                        "Threats, Vulnerabilities, and Mitigations",
+                        "Security Architecture",
+                        "Security Operations",
+                        "Security Program Management"
+                    ];
+                    
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'question';
+                    questionDiv.id = `q${q.id}`;
+                    questionDiv.innerHTML = `
+                        <div class="question-number">Questão ${q.id} <span class="domain-tag ${domainClass}">${domainNames[q.domain]}</span></div>
+                        <p>${q.question}</p>
+                        <div class="options" id="options${q.id}">
+                            ${q.options.map((opt, idx) => `
+                                <label><input type="radio" name="q${q.id}" value="${String.fromCharCode(65 + idx)}"> ${String.fromCharCode(65 + idx)}. ${opt}</label><br>
+                            `).join('')}
+                        </div>
+                        <button onclick="checkAnswer(${q.id}, '${q.answer}')">Verificar Resposta</button>
+                        <div class="result" id="result${q.id}"></div>
+                    `;
+                    
+                    container.appendChild(questionDiv);
+                    currentIndex++;
+                }
+            });
+            
+            updateProgress();
+        }
+
+        // Verifica uma resposta individual
+        function checkAnswer(questionId, correctAnswer) {
+            const questionIndex = questionId - 1;
+            const selectedOption = document.querySelector(`input[name="q${questionId}"]:checked`);
+            const resultDiv = document.getElementById(`result${questionId}`);
+            
+            if (!selectedOption) {
+                alert("Por favor, selecione uma resposta!");
+                return;
+            }
+            
+            const userAnswer = selectedOption.value;
+            userAnswers[questionIndex] = userAnswer;
+            
+            if (userAnswer === correctAnswer) {
+                resultDiv.textContent = "✓ Correto! " + questions[questionIndex].explanation;
+                resultDiv.className = "result correct";
+                score++;
+            } else {
+                resultDiv.textContent = `✗ Incorreto. A resposta correta é ${correctAnswer}. ${questions[questionIndex].explanation}`;
+                resultDiv.className = "result incorrect";
+            }
+            
+            answeredQuestions++;
+            updateProgress();
+            resultDiv.style.display = "block";
+        }
+
+        // Verifica todas as respostas
+        function checkAllAnswers() {
+            questions.forEach(q => {
+                if (userAnswers[q.id - 1] === null) {
+                    const randomOption = document.querySelector(`#options${q.id} input:nth-child(${Math.floor(Math.random() * 4) + 1})`);
+                    if (randomOption) randomOption.checked = true;
+                    checkAnswer(q.id, q.answer);
+                }
+            });
+        }
+
+        // Atualiza a barra de progresso e contadores
+        function updateProgress() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('answered').textContent = answeredQuestions;
+            document.getElementById('progress').style.width = `${(answeredQuestions / totalQuestions) * 100}%`;
+        }
+
+        // Atualiza o timer
+        function updateTimer() {
+            if (seconds === 0) {
+                if (minutes === 0) {
+                    clearInterval(timer);
+                    alert("Tempo esgotado!");
+                    checkAllAnswers();
+                    return;
+                }
+                minutes--;
+                seconds = 59;
+            } else {
+                seconds--;
+            }
+            
+            document.getElementById('time').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Reinicia o simulado
+        function resetSimulator() {
+            if (confirm("Tem certeza que deseja reiniciar o simulado? Todas as respostas serão perdidas.")) {
+                score = 0;
+                answeredQuestions = 0;
+                userAnswers = new Array(totalQuestions).fill(null);
+                
+                // Reset UI
+                document.querySelectorAll('.result').forEach(el => {
+                    el.style.display = 'none';
+                    el.className = 'result';
+                });
+                
+                document.querySelectorAll('input[type="radio"]').forEach(el => {
+                    el.checked = false;
+                });
+                
+                updateProgress();
+                
+                // Reset timer
+                clearInterval(timer);
+                minutes = 90;
+                seconds = 0;
+                document.getElementById('time').textContent = "90:00";
+                timer = setInterval(updateTimer, 1000);
+                
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // Inicializa o simulado quando a página carrega
+        window.onload = initSimulator;
+    </script>
+</body>
+</html>
